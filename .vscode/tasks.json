@@ -1,0 +1,42 @@
+// {
+//     // See https://go.microsoft.com/fwlink/?LinkId=733558
+//     // for the documentation about the tasks.json format
+//     "version": "2.0.0",
+//     "tasks": [
+//         {
+//             "label": "echo",
+//             "type": "shell",
+//             "command": "echo Hello"
+//         }
+//     ]
+// }
+
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "compile",
+            "type": "shell",
+            "command": "bash",
+            "args": ["-c", "cd \"${fileDirname}\" && g++ -std=c++17 \"${fileBasename}\" -o \"${fileBasenameNoExtension}\""],
+            "group": "build"
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "bash",
+            "args": ["-c", "cd \"${fileDirname}\" && ./\"${fileBasenameNoExtension}\" < input.txt | tee output.txt"],
+            "group": "test",
+            "dependsOn": "compile"
+        },
+        {
+            "label": "compile and run",
+            "dependsOrder": "sequence",
+            "dependsOn": ["compile", "run"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
